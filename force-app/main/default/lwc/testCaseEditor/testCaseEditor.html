@@ -1,0 +1,106 @@
+<template>
+    <div>
+        <!-- Header -->
+        <div class="slds-p-bottom_medium">
+            <div class="slds-grid slds-grid_align-spread">
+            </div>
+        </div>
+
+        <!-- Acceptance Criteria -->
+        <div class="slds-p-bottom_medium">
+            <lightning-textarea label="Acceptance Criteria" value={acceptanceCriteria}
+                onchange={handleAcceptanceCriteriaChange} rows="4"
+                placeholder="Describe the acceptance criteria for this test case..." required>
+            </lightning-textarea>
+        </div>
+
+        <lightning-accordion key={workType} allow-multiple-sections-open="true" active-section-name={activeSections}>
+            <lightning-accordion-section name="steps" label="Steps">
+                <!-- Steps -->
+                <div class="slds-p-bottom_medium">
+                    <template for:each={steps} for:index="stepIndex" for:item="step">
+                        <div key={step} class="slds-p-bottom_small">
+                            <div class="slds-grid slds-grid_align-center">
+                                <div class="slds-col slds-size_1-of-12 slds-text-align_center">
+                                    <span class="slds-badge slds-badge_inverse">{stepIndex}</span>
+                                </div>
+                                <div class="slds-col slds-size_10-of-12">
+                                    <lightning-input type="text" value={step.value} data-index={stepIndex}
+                                        onchange={handleStepChange} placeholder="Enter step description..."
+                                        variant="label-hidden">
+                                    </lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12">
+                                    <lightning-button-group>
+                                        <lightning-button-icon icon-name="utility:up" variant="border-filled"
+                                            alternative-text="Move Up" data-index={stepIndex} onclick={handleMoveStepUp}
+                                            disabled={step.isUpDisabled}>
+                                        </lightning-button-icon>
+                                        <lightning-button-icon icon-name="utility:down" variant="border-filled"
+                                            alternative-text="Move Down" data-index={stepIndex}
+                                            onclick={handleMoveStepDown} disabled={step.isDownDisabled}>
+                                        </lightning-button-icon>
+                                        <lightning-button-icon icon-name="utility:delete" variant="border-filled"
+                                            alternative-text="Delete" data-index={stepIndex} onclick={handleDeleteStep}>
+                                        </lightning-button-icon>
+                                    </lightning-button-group>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <lightning-button variant="neutral" label="Add Step" onclick={handleAddStep}
+                        icon-name="utility:add">
+                    </lightning-button>
+                </div>
+            </lightning-accordion-section>
+            <lightning-accordion-section name="expectedOutcomes" label="Expected Outcomes">
+                <!-- Expected Outcomes -->
+                <div class="slds-p-bottom_medium">
+                    <template for:each={expectedOutcomes} for:index="outcomeIndex" for:item="outcome">
+                        <div key={outcome.id} class="slds-p-bottom_small">
+                            <div class="slds-grid slds-grid_align-center">
+                                <div class="slds-col slds-size_1-of-12 slds-text-align_center">
+                                    <span class="slds-badge slds-badge_inverse">{outcomeIndex}</span>
+                                </div>
+                                <div class="slds-col slds-size_10-of-12">
+                                    <lightning-input type="text" value={outcome.text} data-index={outcomeIndex}
+                                        onchange={handleExpectedOutcomeChange} placeholder="Enter expected outcome..."
+                                        variant="label-hidden">
+                                    </lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12">
+                                    <lightning-button-group>
+                                        <lightning-button-icon icon-name="utility:up" variant="border-filled"
+                                            alternative-text="Move Up" data-index={outcomeIndex}
+                                            onclick={handleMoveExpectedOutcomeUp} disabled={outcome.isUpDisabled}>
+                                        </lightning-button-icon>
+                                        <lightning-button-icon icon-name="utility:down" variant="border-filled"
+                                            alternative-text="Move Down" data-index={outcomeIndex}
+                                            onclick={handleMoveExpectedOutcomeDown} disabled={outcome.isDownDisabled}>
+                                        </lightning-button-icon>
+                                        <lightning-button-icon icon-name="utility:delete" variant="border-filled"
+                                            alternative-text="Delete" data-index={outcomeIndex}
+                                            onclick={handleDeleteExpectedOutcome}>
+                                        </lightning-button-icon>
+                                    </lightning-button-group>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <lightning-button variant="neutral" label="Add Expected Outcome" onclick={handleAddExpectedOutcome}
+                        icon-name="utility:add">
+                    </lightning-button>
+                </div>
+            </lightning-accordion-section>
+            <template if:true={isFixType}>
+                <lightning-accordion-section name="observedOutcomes" label="Observed Outcomes">
+                    <div class="slds-p-bottom_medium">
+                        <lightning-textarea label="Observed Outcome" value={observedOutcome}
+                            onchange={handleObservedOutcomeChange}></lightning-textarea>
+                    </div>
+                </lightning-accordion-section>
+            </template>
+        </lightning-accordion>
+
+    </div>
+</template>

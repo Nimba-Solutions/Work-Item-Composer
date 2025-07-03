@@ -1,0 +1,27 @@
+<template>
+    <lightning-card title="" icon-name="standard:test">
+        <div>
+            <template if:true={loading}>
+                <div class="slds-is-relative slds-p-around_medium">
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <template if:false={loading}>
+                <template if:true={error}>
+                    <div class="slds-text-color_error">
+                        <lightning-icon icon-name="utility:error" size="small"
+                            class="slds-p-right_x-small"></lightning-icon>
+                        Error loading test cases
+                    </div>
+                </template>
+
+                <template if:false={error}>
+                    <c-test-case-list test-cases={testCases} work-type={workType}
+                        ontestcaseschange={handleTestCasesChange}>
+                    </c-test-case-list>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>

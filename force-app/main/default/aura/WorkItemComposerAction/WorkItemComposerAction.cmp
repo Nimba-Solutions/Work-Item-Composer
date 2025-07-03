@@ -1,0 +1,24 @@
+<aura:component implements="force:lightningQuickAction,force:hasRecordId" access="global">
+    <aura:attribute name="isOpen" type="Boolean" default="true" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:if isTrue="{!v.isOpen}">
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container custom-modal-width">
+
+                <div class="slds-modal__content slds-p-around_medium">
+                    <c:workItemComposer onclose="{!c.handleClose}" />
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral" label="Close" onclick="{!c.handleClose}" />
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    <aura:html tag="style">
+        .custom-modal-width {
+        width: 60vw !important;
+        max-width: 60vw !important;
+        }
+    </aura:html>
+</aura:component>

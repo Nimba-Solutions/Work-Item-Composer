@@ -1,0 +1,106 @@
+<template>
+    <div class="slds-p-around_medium">
+        <!-- Header -->
+        <div class="slds-p-bottom_medium">
+            <div class="slds-grid slds-grid_align-spread">
+                <div class="slds-text-heading_medium">Test Cases</div>
+                <lightning-button variant="brand" label="New Test Case" onclick={handleNewTestCase}
+                    icon-name="utility:add">
+                </lightning-button>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <template if:true={loading}>
+            <div class="slds-is-relative slds-p-around_medium">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Content -->
+        <template if:false={loading}>
+            <!-- No Test Cases -->
+            <template if:false={hasTestCases}>
+                <template if:false={showEditor}>
+                    <lightning-card>
+                        <div class="slds-p-around_medium">
+                            <div class="slds-text-align_center">
+                                <lightning-icon icon-name="utility:info" size="medium"
+                                    class="slds-p-bottom_small"></lightning-icon>
+                                <div class="slds-text-heading_medium">Create your first Test Case</div>
+                                <div class="slds-text-body_regular slds-p-top_small">
+                                    Test Cases help developers and testers understand your <br />
+                                    exact expectations and ensure the solution works correctly. <br />
+                                    <br />
+                                    They also prevent future bugs by providing a clear way <br />
+                                    to verify the feature continues working as intended. <br />
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
+                    </lightning-card>
+                </template>
+            </template>
+
+            <!-- Test Cases Accordion -->
+            <template if:true={hasTestCases}>
+                <lightning-accordion allow-multiple-sections-open="true" active-section-name={expandedSections}
+                    onsectiontoggle={handleAccordionSectionToggle}>
+                    <template for:each={testCases} for:item="testCase" for:index="index">
+                        <lightning-accordion-section key={testCase.id} name={testCase.id} label={testCase.name}
+                            icon-name="standard:test">
+                            <div slot="actions" class="slds-m-left_x-small">
+                                <lightning-button-icon icon-name="utility:delete" alternative-text="Delete Test Case"
+                                    title="Delete Test Case" data-id={testCase.id} onclick={handleDeleteTestCase}
+                                    class="slds-float_right" variant="destructive"></lightning-button-icon>
+                            </div>
+                            <template if:true={testCase.expanded}>
+                                <c-test-case-editor test-case={testCase} work-type={workType} onsave={handleSave}
+                                    oncancel={handleCancel}></c-test-case-editor>
+                            </template>
+                            <template if:false={testCase.expanded}>
+                                <div class="slds-p-around_medium">
+                                    <div class="slds-grid slds-grid_align-spread slds-p-bottom_small">
+                                        <div class="slds-text-body_small">{testCase.createdDate}</div>
+                                    </div>
+                                    <div class="slds-text-body_regular slds-p-bottom_small">
+                                        {testCase.acceptanceCriteria}</div>
+                                    <div class="slds-grid slds-grid_align-end">
+                                        <lightning-button-group>
+                                            <lightning-button variant="neutral" label="Edit" data-id={testCase.id}
+                                                onclick={handleEditTestCase} icon-name="utility:edit">
+                                            </lightning-button>
+                                            <lightning-button variant="neutral" label="Execute" data-id={testCase.id}
+                                                onclick={handleExecuteTestCase} icon-name="utility:play">
+                                            </lightning-button>
+                                            <lightning-button variant="neutral" label="History" data-id={testCase.id}
+                                                onclick={handleViewHistory} icon-name="utility:history">
+                                            </lightning-button>
+                                        </lightning-button-group>
+                                    </div>
+                                </div>
+                            </template>
+                        </lightning-accordion-section>
+                    </template>
+                </lightning-accordion>
+                <div class="slds-p-top_medium slds-align_absolute-center">
+                    <lightning-button variant="brand" label="New Test Case" onclick={handleNewTestCase}
+                        icon-name="utility:add">
+                    </lightning-button>
+                </div>
+            </template>
+        </template>
+
+        <!-- Test Execution -->
+        <template if:true={showExecution}>
+            <c-test-execution test-case={selectedTestCase} onback={handleBack}>
+            </c-test-execution>
+        </template>
+
+        <!-- Test History -->
+        <template if:true={showHistory}>
+            <c-test-history test-case-id={selectedTestCase.id} onback={handleBack}>
+            </c-test-history>
+        </template>
+    </div>
+</template>

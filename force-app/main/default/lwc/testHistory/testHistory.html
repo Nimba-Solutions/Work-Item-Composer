@@ -1,0 +1,102 @@
+<template>
+    <div class="slds-p-around_medium">
+        <!-- Header -->
+        <div class="slds-p-bottom_medium">
+            <div class="slds-grid slds-grid_align-spread">
+                <div class="slds-text-heading_medium">Test History</div>
+                <lightning-button variant="neutral" label="Back" onclick={handleBack} icon-name="utility:back">
+                </lightning-button>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <template if:true={loading}>
+            <div class="slds-is-relative slds-p-around_medium">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Error State -->
+        <template if:true={error}>
+            <lightning-card class="slds-p-bottom_medium">
+                <div class="slds-p-around_medium">
+                    <div class="slds-text-color_error">
+                        <lightning-icon icon-name="utility:error" size="small"
+                            class="slds-p-right_x-small"></lightning-icon>
+                        Error loading test history
+                    </div>
+                </div>
+            </lightning-card>
+        </template>
+
+        <!-- Content -->
+        <template if:false={loading}>
+            <template if:false={error}>
+                <!-- No Executions -->
+                <template if:false={hasExecutions}>
+                    <lightning-card>
+                        <div class="slds-p-around_medium">
+                            <div class="slds-text-align_center">
+                                <lightning-icon icon-name="utility:info" size="medium"
+                                    class="slds-p-bottom_small"></lightning-icon>
+                                <div class="slds-text-heading_medium">No test executions found</div>
+                                <div class="slds-text-body_regular slds-p-top_small">Execute this test case to see
+                                    history</div>
+                            </div>
+                        </div>
+                    </lightning-card>
+                </template>
+
+                <!-- Executions List -->
+                <template if:true={hasExecutions}>
+                    <div class="slds-p-bottom_medium">
+                        <div class="slds-text-heading_small slds-p-bottom_small">
+                            Test Executions ({executionCount})
+                        </div>
+                    </div>
+
+                    <template for:each={executions} for:index="executionIndex" for:item="execution">
+                        <lightning-card key={execution.Id} class="slds-p-bottom_medium">
+                            <div class="slds-p-around_medium">
+                                <div class="slds-grid slds-grid_align-spread slds-p-bottom_small">
+                                    <div class="slds-text-heading_small">
+                                        Execution {executionIndex}
+                                    </div>
+                                    <div class="slds-text-body_small">
+                                        {execution.CreatedDate}
+                                    </div>
+                                </div>
+
+                                <template for:each={execution.outcomes} for:index="outcomeIndex" for:item="outcome">
+                                    <div key={outcome.text} class="slds-p-bottom_x-small">
+                                        <div class="slds-grid slds-grid_align-center">
+                                            <div class="slds-col slds-size_10-of-12">
+                                                <div class="slds-text-body_regular">{outcome.text}</div>
+                                            </div>
+                                            <div class="slds-col slds-size_2-of-12 slds-text-align_right">
+                                                <template if:true={outcome.passed}>
+                                                    <lightning-icon icon-name="utility:success" size="x-small"
+                                                        class="slds-text-color_success">
+                                                    </lightning-icon>
+                                                    <span
+                                                        class="slds-text-color_success slds-p-left_x-small">Passed</span>
+                                                </template>
+                                                <template if:false={outcome.passed}>
+                                                    <lightning-icon icon-name="utility:error" size="x-small"
+                                                        class="slds-text-color_error">
+                                                    </lightning-icon>
+                                                    <span
+                                                        class="slds-text-color_error slds-p-left_x-small">Failed</span>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </lightning-card>
+                    </template>
+                </template>
+            </template>
+        </template>
+    </div>
+</template>
