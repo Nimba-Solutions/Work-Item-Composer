@@ -6,6 +6,10 @@ export default class TestHistory extends LightningElement {
     @track loading = true;
     @track error;
 
+    connectedCallback() {
+        this.loading = false;
+    }
+
     handleBack() {
         this.dispatchEvent(new CustomEvent('back'));
     }

@@ -7,6 +7,10 @@ export default class TestCaseComposer extends LightningElement {
     @track loading = true;
     @track error;
 
+    connectedCallback() {
+        this.loading = false;
+    }
+
     handleTestCasesChange(event) {
         const updatedTestCases = event.detail;
         this.testCases = updatedTestCases;
