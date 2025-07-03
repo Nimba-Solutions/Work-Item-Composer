@@ -3,9 +3,13 @@ public class WorkItemService {
     public static void processEvents(List<Work_Item_Event__e> events) {
         for (Work_Item_Event__e event : events) {
             try {
+                System.debug('## Processing event #########################################################');
+                System.debug('## Operation: ' + event.Operation__c);
+                System.debug('##      Body:' + event.Body__c);
                 processEvent(event);
             } catch (Exception e) {
                 System.debug('Error processing Work Item Event: ' + e.getMessage());
+                System.debug('Stack trace: ' + e.getStackTraceString());
             }
         }
     }
