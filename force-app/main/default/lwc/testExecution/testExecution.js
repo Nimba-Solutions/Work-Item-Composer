@@ -1,5 +1,4 @@
 import { LightningElement, api, track } from 'lwc';
-import createTestExecution from '@salesforce/apex/TestCaseController.createTestExecution';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class TestExecution extends LightningElement {
@@ -23,28 +22,9 @@ export default class TestExecution extends LightningElement {
         this.outcomes = [...this.outcomes];
     }
 
-    async handleSave() {
-        try {
-            this.loading = true;
-            
-            // Convert outcomes to TestOutcome objects for Apex
-            const testOutcomes = this.outcomes.map(outcome => ({
-                text: outcome.text,
-                passed: outcome.passed
-            }));
-            
-            await createTestExecution({
-                testCaseId: this.testCase.id,
-                outcomes: testOutcomes
-            });
-            
-            this.showToast('Success', 'Test execution saved successfully', 'success');
-            this.dispatchEvent(new CustomEvent('back'));
-        } catch (error) {
-            this.showToast('Error', 'Failed to save test execution', 'error');
-        } finally {
-            this.loading = false;
-        }
+    handleSave() {
+        // TODO: Implement save functionality when new controller is available
+        this.showToast('Info', 'Save functionality not yet implemented', 'info');
     }
 
     handleBack() {

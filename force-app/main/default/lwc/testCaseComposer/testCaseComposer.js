@@ -1,5 +1,4 @@
-import { LightningElement, track, api, wire } from 'lwc';
-import getTestCases from '@salesforce/apex/TestCaseController.getTestCases';
+import { LightningElement, track, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class TestCaseComposer extends LightningElement {
@@ -7,17 +6,6 @@ export default class TestCaseComposer extends LightningElement {
     @track testCases = [];
     @track loading = true;
     @track error;
-
-    @wire(getTestCases)
-    wiredTestCases({ error, data }) {
-        this.loading = false;
-        if (data) {
-            this.testCases = data;
-        } else if (error) {
-            this.error = error;
-            this.showToast('Error', 'Failed to load test cases', 'error');
-        }
-    }
 
     handleTestCasesChange(event) {
         const updatedTestCases = event.detail;

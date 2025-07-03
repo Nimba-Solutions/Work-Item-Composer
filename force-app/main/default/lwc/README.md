@@ -68,12 +68,7 @@ This is a Salesforce Lightning Web Component (LWC) implementation of the Jira Fo
 
 ## Apex Controller
 
-### TestCaseController
-- **Methods**:
-  - `getTestCases()`: Retrieves all test cases
-  - `saveTestCases(List<TestCaseWrapper>)`: Saves/updates test cases
-  - `getTestHistory(Id testCaseId)`: Gets execution history for a test case
-  - `saveTestExecution(Id testCaseId, String outcomesJson)`: Saves test execution results
+*Note: The TestCaseController has been removed. A new controller will need to be implemented to handle the data operations.*
 
 ## Data Structure
 

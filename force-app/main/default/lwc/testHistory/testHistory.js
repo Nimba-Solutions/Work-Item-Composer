@@ -1,21 +1,10 @@
-import { LightningElement, api, track, wire } from 'lwc';
-import getTestHistory from '@salesforce/apex/TestCaseController.getTestHistory';
+import { LightningElement, api, track } from 'lwc';
 
 export default class TestHistory extends LightningElement {
     @api testCaseId;
     @track executions = [];
     @track loading = true;
     @track error;
-
-    @wire(getTestHistory, { testCaseId: '$testCaseId' })
-    wiredTestHistory({ error, data }) {
-        this.loading = false;
-        if (data) {
-            this.executions = data;
-        } else if (error) {
-            this.error = error;
-        }
-    }
 
     handleBack() {
         this.dispatchEvent(new CustomEvent('back'));
